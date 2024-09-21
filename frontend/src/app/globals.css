@@ -1,0 +1,13 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+ :root{
+  --col1: rgb(64, 190, 182);
+ }
+
+ body{
+  background-color:   rgb(24, 24, 24);
+  color: white;
+
+ }
