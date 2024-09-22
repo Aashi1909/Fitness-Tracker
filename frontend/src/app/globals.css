@@ -2,12 +2,32 @@
   margin: 0;
   padding: 0;
 }
- :root{
-  --col1: rgb(64, 190, 182);
- }
 
  body{
   background-color:   rgb(24, 24, 24);
   color: white;
-
  }
+
+.mainhead1{
+  -webkit-text-stroke: 1px #ffc20e;
+  color: transparent;
+  font-size: 10rem;
+  font-weight: 900;
+  text-align: center;
+}
+.mainhead{
+  /* -webkit-text-stroke: 2px black; */
+  color: black;
+  font-size: 4rem;
+  font-weight: 900;
+  text-align: center;
+}
+::-webkit-scrollbar{
+  width: 4px;
+}
+::-webkit-scrollbar-thumb{
+  border-radius: 10px;
+  background-color: #ffc20e;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  
+}

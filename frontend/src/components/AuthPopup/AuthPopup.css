@@ -1,0 +1,82 @@
+.popup{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+.authform{
+    display: flex;
+    /* align-items: center; */
+    background-color: black;
+    width: 60%;
+    /* min-height: 50%; */
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.668);
+}
+
+.authform .left{
+    width: 50%;
+    /* height: 100%; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.authform .left img{
+    width: 80%;
+    /* height: 80%; */
+    object-fit: contain;
+}
+.authform .left .left_content{
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    text-align: center; 
+    padding: 10px;
+    gap: 1rem; 
+}
+.authform .right{
+    width: 50%;
+    height: 100%;
+    border-left: 1px solid #ffc20e;
+    padding: 20px;
+    overflow: scroll;
+}
+
+.authform .right h1{
+    color: #ffc20e;
+    font-size: 25px;
+    font-weight: 700;
+    text-align: center;
+    margin: 10px 0px;
+}
+
+.authform .right form{
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.authform p{
+    margin: 10px 0px;
+}
+
+.authform .form_input_leftright{
+    display: flex;
+    gap: 10px;
+}
+
+
+.popup .close{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border-radius: 50%;
+    line-height: 0;
+}
