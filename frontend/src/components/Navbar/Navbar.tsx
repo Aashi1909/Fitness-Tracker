@@ -1,6 +1,6 @@
 "use client"
 import React from 'react'
-import fitpulselogo from '@/assets/logo.png'
+import logo from '@/assets/logo.png'
 import {IoIosBody} from 'react-icons/io'
 import './Navbar.css'
 import Image from 'next/image'
@@ -14,7 +14,7 @@ const Navbar = () => {
   const [showpopup, setShowPopup] = React.useState<boolean>(false)
   return (
     <nav>
-      <Image src={fitpulselogo} alt="logo" />
+      <Image src={logo} alt="logo" />
       <Link href={'/'}>Home</Link>
       <Link href={'/about'}>About</Link>
       <Link href={'/profile'}><IoIosBody/></Link>
@@ -26,7 +26,7 @@ const Navbar = () => {
           setShowPopup(true)
         }}>Login</button>
       }
-      {showpopup && <AuthPopup />
+      {showpopup && <AuthPopup setShowPopup = {setShowPopup} />
       }
     </nav>
   )
