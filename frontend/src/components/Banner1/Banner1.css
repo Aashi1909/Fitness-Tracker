@@ -39,7 +39,7 @@
 .meters .card-header-box{
     display: flex;
     flex-direction: column;
-    min-width: 40%;
+    min-width: 50%;
     aspect-ratio: 1/1;
     align-items: center;
     justify-content: center;
@@ -75,3 +75,4 @@
     color: #333;
     font-weight: 700;
 }
+

@@ -4,10 +4,11 @@ import './Banner2.css'
 
 // Import Swiper styles
 import 'swiper/css';
-import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
 // import required modules
-import { Pagination } from 'swiper/modules';
+import { Navigation } from 'swiper/modules';
+
 
 const Banner2 = () => {
   const [workouts, setWorkouts]  = React.useState<any[] |null>(null)
@@ -73,9 +74,7 @@ const Banner2 = () => {
       <Swiper
         slidesPerView={1}
         spaceBetween={10}
-        pagination={{
-          clickable: true,
-        }}
+        navigation={true}
         breakpoints={{
           640: {
             slidesPerView: 2,
@@ -90,7 +89,7 @@ const Banner2 = () => {
             spaceBetween: 50,
           },
         }}
-        modules={[Pagination]}
+        modules={[Navigation]}
         className="mySwiper"
       >
         {

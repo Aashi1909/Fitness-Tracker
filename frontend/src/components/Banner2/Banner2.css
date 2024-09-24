@@ -8,8 +8,12 @@
     align-items: center;
     background-size: cover;
 }
-
-
+.swiper-slide:hover {
+    transform: scale(1.05) !important; 
+    border-radius: 20px !important;
+    border: 1px solid #e6e6e6 !important;  
+  }
+  
 .swiper-slide .swiper-slide-content{
     background-color: rgba(0, 0, 0, 0.385);
     color: white;
@@ -34,4 +38,8 @@
     font-size: 1rem;
     font-weight: 500;
     text-align: center;
+}
+.mySwiper .swiper-button-prev,
+.mySwiper .swiper-button-next {
+  color: #ffc20e !important; 
 }

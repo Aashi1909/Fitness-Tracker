@@ -12,10 +12,10 @@
 }
 .authform{
     display: flex;
+    position: relative;
     /* align-items: center; */
     background-color: black;
     width: 60%;
-    /* min-height: 50%; */
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.668);
@@ -23,14 +23,12 @@
 
 .authform .left{
     width: 50%;
-    /* height: 100%; */
     display: flex;
     justify-content: center;
     align-items: center;
 }
 .authform .left img{
     width: 80%;
-    /* height: 80%; */
     object-fit: contain;
 }
 .authform .left .left_content{
@@ -71,12 +69,16 @@
     display: flex;
     gap: 10px;
 }
-
-
-.popup .closebtn{
+.authform .closebtn {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 0px; /* Adjust as needed */
+    right: 5px; /* Adjust as needed */
     border-radius: 50%;
-    line-height: 0;
+    color: #ffc20e;
+    background-color: transparent;
+    border: none; /* Remove default button border */
+    cursor: pointer; /* Change cursor to pointer */
+    font-size: 25px; /* Adjust font size as necessary */
+    line-height: 0; /* Keep line height at 0 to fit the icon */
+    transition: color 0.3s; /* Smooth transition for hover effect */
 }
