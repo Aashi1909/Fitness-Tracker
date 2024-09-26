@@ -1,18 +1,18 @@
 const express = require('express')
 const router = express.Router();
-const User = require('../Models/userSchema');
+const User = require('../Models/UserSchema');
 const errorHandler = require('../Middlewares/errorMiddleware');
 const authTokenHandler = require('../Midllewares/checkAuthtoken');
-const jwt = require('jwtwebtoken');
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 
 
 const transporter = nodemailer.createTransport({
-    service: 'gamil',
+    service: 'gmail',
     auth:{
-        user : 'aashiiaggarwal19@gmail.com',
-        pass: ''
+        user : 'aashiggaarwal28552@gmail.com',
+        pass: 'srqgpfdztrxydutd'
     }
 })
 
@@ -87,7 +87,25 @@ router.post('/login', async(req, res, next) =>{
     }
 })
 router.post('/sendotp', async(req, res, next) =>{
-    try{}
+    try{
+        const {email} = req.body;
+        const otp = Math.floor(100000 + Math.random() * 900000);
+
+        const mailOptions = {
+            from: 'aashiggaarwal28552@gmail.com',
+            to: email,
+            subject: 'OTP for login',
+            text: `Your OTP is ${otp}`
+        }
+        transporter.sendMail(mailOptions, async(err, info) =>{
+            if(err){
+                return res.status(500).json(createResponse(false, err.message))
+            }
+            else{
+            res.json(createResponse(true, "OTP sent successfully", {otp}))
+        }
+        })
+    }
 catch(err){
     next(err);
 }
