@@ -118,7 +118,19 @@ const userSchema = new mongoose.Schema({
             required:true,
         }
     }
-]
+],
+water: [
+    {
+        date: {
+            type: Date,
+            required: true,
+        },
+        amountInMilliliters: {
+            type: Number,
+            required: true,
+        },
+    },
+],
 }, {timestamps: true });
 
 userSchema.pre('save', async function(next){

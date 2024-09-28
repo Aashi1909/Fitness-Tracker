@@ -53,11 +53,7 @@ router.post('./deletesleepentry', authTokenHandler, async(req, res, next)=>{
         return res.status(400).json(createResponse(false, 'Please Provide Date'))
     }
     user.sleep = user.sleep.filter(entry =>{
-        return(
-            new Date(entry.date).getDate() !== new Date(date).getDate() &&
-            new Date(entry.date).getMonth() !== new Date(date).getMonth() &&
-            new Date(entry.date).getFullYear() !== new Date(date).getFullYear() 
-        )
+        return entry.date !== date
     })
     await user.save();
     res.json(createResponse(true, 'Sleep entry deleted Successfully'))
