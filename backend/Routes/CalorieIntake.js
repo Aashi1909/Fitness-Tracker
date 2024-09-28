@@ -20,7 +20,7 @@ router.post('/addCalorieIntake', authTokenHandler, async(req, res, next) =>{
     if(!items || !date || !quantity || !quantityType){
         return res.status(400).json(createResponse(false, "Please provide all the required fields"))
     }
-    let quantityInGrams =0;
+    let quantityInGrams = 0;
     if(quantityType === "g"){
         quantityInGrams = quantity;
     }
@@ -126,15 +126,12 @@ router.post('/deleteCalorieIntake', authTokenHandler, async(req, res, next) =>{
     if(!item || !date){
         return res.status(400).json(createResponse(false, "Please provide item and date"))
     }
-
+    // creates a new array that excludes the entry that matches both the item and date provided.
     user.calorieIntake = user.calorieIntake.filter((entry) => {
         return entry.item !== item || entry.date !== date
     })
     await user.save();
     res.json(createResponse(true, 'Calorie intake deleted successfully'));
-
-
-
 })
 router.post('/getGoalCalorieIntake', authTokenHandler, async(req, res, next) =>{
     const userId = req.userId;
