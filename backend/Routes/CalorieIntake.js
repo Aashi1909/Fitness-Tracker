@@ -153,17 +153,20 @@ router.post('/getGoalCalorieIntake', authTokenHandler, async(req, res, next) =>{
         BMR = 447.593 + (9.247 * weightInKg) + (3.098 * heightInCm) - (4.330 * age); /* standard calculation for calculation of bmr of others */
     }
     if (user.goal == 'weightLoss') {
-        maxCalorieIntake = BMR - 500;
+        maxCalories = BMR - 500;
     }
     else if (user.goal == 'weightGain') {
-        maxCalorieIntake = BMR + 500;
+        maxCalories = BMR + 500;
     }
     else {
-        maxCalorieIntake = BMR;
+        maxCalories = BMR;
     }
 
-    res.json(createResponse(true, 'max calorie intake', { maxCalorieIntake }));
+    res.json(createResponse(true, 'max calorie intake', { maxCalories }));
 })
+
+router.use(errorHandler);
+
 
 function filterByDate(entries, targetDate){
     return entries.filter(entry => {
