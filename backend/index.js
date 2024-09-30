@@ -27,11 +27,11 @@ const allowedOrigins= ['http://localhost:3000']
 
 app.use(
     cors({
-        origin:function(origin, calback){
+        origin:function(origin, callback){
             if(!origin || allowedOrigins.includes(origin)){
-                cancelIdleCallback(null, true);
+                callback(null, true);
             }else{
-                cancelIdleCallback(new Error ('Not allowed by CORS'))
+                callback(new Error ('Not allowed by CORS'))
             }
         },
         credentials:true
