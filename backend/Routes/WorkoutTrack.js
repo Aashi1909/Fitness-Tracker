@@ -1,10 +1,9 @@
 
 const express = require('express');
 const router = express.Router();
-
 const authTokenHandler = require('../Middlewares/checkAuthToken');
 const errorHandler = require('../Middlewares/errorMiddleware');
-const User = require('../Models/UserSchema');
+const User = require('../Models/UserSchema')
 
 function createResponse(ok, message, data) {
     return {

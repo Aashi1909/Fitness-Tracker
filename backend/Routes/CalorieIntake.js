@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router();
-const authTokenHandler = require('../Midllewares/checkAuthtoken');
+const authTokenHandler = require('../Middlewares/checkAuthToken');
 const errorHandler = require('../Middlewares/errorMiddleware');
 const jwt = require('jsonwebtoken');
-const User = require('../Models/UserSchema');
+const User = require('../Models/UserSchema')
 const request = require('request');
 
 require('dotenv').config()
@@ -16,8 +16,8 @@ function createResponse(ok, message, data){
     }
 }
 router.post('/addCalorieIntake', authTokenHandler, async(req, res, next) =>{
-    const{items, date, quantity, quantityType} = req.body;
-    if(!items || !date || !quantity || !quantityType){
+    const{item, date, quantity, quantityType} = req.body;
+    if(!item || !date || !quantity || !quantityType){
         return res.status(400).json(createResponse(false, "Please provide all the required fields"))
     }
     let quantityInGrams = 0;
@@ -69,7 +69,7 @@ router.post('/addCalorieIntake', authTokenHandler, async(req, res, next) =>{
                 item,
                 date: new Date(date),
                 quantity,
-                quantitytype,
+                quantityType,
                 calorieIntake: parseInt(calorieIntake)
             })
 

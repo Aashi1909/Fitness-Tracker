@@ -1,9 +1,8 @@
 const express = require('express');
-const router = require('router');
-const authTokenHandler = require('../Midllewares/checkAuthtoken');
+const router = express.Router();
+const authTokenHandler = require('../Middlewares/checkAuthToken');
 const errorHandler = require('../Middlewares/errorMiddleware');
-const User = require('../Models/UserSchema');
-const User = require('../Models/UserSchema');
+const User = require('../Models/UserSchema')
 
 function createResponse(ok, message, data){
     return {
@@ -61,7 +60,7 @@ router.post('./deletesleepentry', authTokenHandler, async(req, res, next)=>{
 
 router.post('./getusersleep', authTokenHandler, async(req, res, next) =>{
     const userId = req.userId;
-    const User = await User.findById({_id: userId});
+    const user = await User.findById({_id: userId});
 
         let goalSleep = 6;
         res.json(createResponse(true, 'User max sleep information', {goalSleep}))
