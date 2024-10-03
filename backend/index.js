@@ -7,7 +7,6 @@ const PORT =  8000;
 const cookieParser = require('cookie-parser');
 
 const authRoutes = require('./Routes/Auth');
-const calorieIntakeRoutes = require('./Routes/CalorieIntake');
 const adminRoutes = require('./Routes/Admin');
 const imageUploadRoutes = require('./Routes/imageUploadRoutes');
 const sleepTrackRoutes = require('./Routes/SleepTrack');
@@ -40,7 +39,6 @@ app.use(
 app.use(cookieParser());
 
 app.use('/auth', authRoutes);
-app.use('/calorieintake', calorieIntakeRoutes);
 app.use('/admin', adminRoutes);
 app.use('/image-upload', imageUploadRoutes);
 app.use('/sleeptrack', sleepTrackRoutes);
