@@ -66,6 +66,8 @@ router.post('./getusersleep', authTokenHandler, async(req, res, next) =>{
         res.json(createResponse(true, 'User max sleep information', {goalSleep}))
 })
 
+router.use(errorHandler);
+
 function filterByDate(entries, targetDate){
     return entries.filter(entry => {
         const entryDate = new Date(entry.date);

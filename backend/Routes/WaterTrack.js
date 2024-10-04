@@ -96,7 +96,7 @@ router.get('/getusergoalwater', authTokenHandler, async (req, res) => {
     const userId = req.userId;
     const user = await User.findById({ _id: userId });
 
-    const goalWater = 4000; // Set your goal water intake here in milliliters
+    const goalWater = 4000; 
 
     res.json(createResponse(true, 'User max water information', {goalWater }));
 });
