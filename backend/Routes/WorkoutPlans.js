@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const errorHandler = require('../Middlewares/errorMiddleware');
 const adminTokenHandler = require('../Middlewares/checkAdminToken');
-const User = require('../Models/UserSchema');
+const User = require('../Models/UserSchema')
 const Workout = require('../Models/WorkoutSchema');
 
 

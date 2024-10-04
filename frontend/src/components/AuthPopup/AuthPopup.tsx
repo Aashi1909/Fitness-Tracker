@@ -6,13 +6,44 @@ import Input from '@mui/joy/Input'
 import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
 import { AiOutlineCloseCircle } from "react-icons/ai";
+import dayjs from 'dayjs';
+
+import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
+import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
+import {DesktopDatePicker} from '@mui/x-date-pickers';
+import {StaticDatePicker} from '@mui/x-date-pickers/StaticDatePicker';
+import { ToastContainer, toast } from 'react-toastify'
 
 
 interface AuthPopupProps {
     setShowPopup: React.Dispatch<React.SetStateAction<boolean>>
 }
+
+interface SignUpFormData{
+    name: String | null,
+    email: String | null,
+    password: String | null,
+    weightInKg: Number | null, 
+    heightInCm: Number | null,
+    goal: String | null,
+    gender: String | null,
+    dob: Date | null,
+    activityLevel: String | null
+}
 const AuthPopup  : React.FC<AuthPopupProps> = ({setShowPopup}) => {
     const[showSignup, setShowSignup] = React.useState<boolean>(false)
+    const[signupformData, setSignUpFormData] = React.useState<SignUpFormData>({
+        name: ' ',
+        email: ' ',
+        password: ' ',
+        weightInKg: 0.0, 
+        heightInCm: 0.0,
+        goal: ' ',
+        gender: ' ',
+        dob: new Date(),    
+        activityLevel: ' '
+    })
+    const [date, setDate] = React.useState<Date | null>(null);
 
     const handleLogin =() =>{
 

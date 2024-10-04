@@ -1,11 +1,8 @@
-const mongoose = require('mongoose')
-require('dotenv').config()
+const mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGO_URL, {
-    dbName: process.env.DB_NAME
-}).then(
-    () =>{
-        console.log("Connected to a database");
-    }).catch((err) =>{
-        console.log("Error connecting to database" + err);
-    })
+mongoose.connect('mongodb://localhost:27017/fitness-tracker', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => console.log('MongoDB connected'))
+.catch(err => console.log(err));

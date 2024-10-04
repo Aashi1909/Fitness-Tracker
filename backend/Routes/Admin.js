@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router();
 const Admin = require('../Models/AdminSchema');
 const errorHandler = require('../Middlewares/errorMiddleware');
-const adminTokenHandler = require('../Midllewares/checkAdmintoken');
+const adminTokenHandler = require('../Middlewares/checkAdminToken');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 

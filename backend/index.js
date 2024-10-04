@@ -7,7 +7,6 @@ const PORT =  8000;
 const cookieParser = require('cookie-parser');
 
 const authRoutes = require('./Routes/Auth');
-const calorieIntakeRoutes = require('./Routes/CalorieIntake');
 const adminRoutes = require('./Routes/Admin');
 const imageUploadRoutes = require('./Routes/imageUploadRoutes');
 const sleepTrackRoutes = require('./Routes/SleepTrack');
@@ -27,11 +26,11 @@ const allowedOrigins= ['http://localhost:3000']
 
 app.use(
     cors({
-        origin:function(origin, calback){
+        origin:function(origin, callback){
             if(!origin || allowedOrigins.includes(origin)){
-                cancelIdleCallback(null, true);
+                callback(null, true);
             }else{
-                cancelIdleCallback(new Error ('Not allowed by CORS'))
+                callback(new Error ('Not allowed by CORS'))
             }
         },
         credentials:true
@@ -40,7 +39,6 @@ app.use(
 app.use(cookieParser());
 
 app.use('/auth', authRoutes);
-app.use('/calorieintake', calorieIntakeRoutes);
 app.use('/admin', adminRoutes);
 app.use('/image-upload', imageUploadRoutes);
 app.use('/sleeptrack', sleepTrackRoutes);
