@@ -12,6 +12,34 @@ const Navbar = () => {
   const [isLoggedIn, setIsLogegdIn]  = React.useState<boolean>(false)
 
   const [showpopup, setShowPopup] = React.useState<boolean>(false)
+
+  const checklogin = async()=>{
+    fetch(process.env.NEXT_PUBLIC_BACKEND_API + '/auth/checklogin', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      credentials: 'include'
+  })
+  .then(res => res.json())
+      .then(data => {
+          console.log(data)
+
+          if (data.ok) {
+            setIsLogegdIn(true)
+          }
+          else{
+            setIsLogegdIn(false)
+          }
+      }).catch(err => {
+          console.log(err)
+      })
+
+  }
+  React.useEffect(()=>{
+    checklogin()
+  }, [showpopup])
+
   return (
     <nav>
       <Image src={logo} alt="logo" />

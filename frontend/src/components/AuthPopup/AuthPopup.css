@@ -12,12 +12,13 @@
 }
 .authform{
     display: flex;
+    flex: column;
     position: relative;
     /* align-items: center; */
     background-color: black;
     width: 60%;
     border-radius: 10px;
-    overflow: hidden;
+    /* overflow-y: scroll; */
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.668);
 }
 
@@ -82,3 +83,19 @@
     line-height: 0; /* Keep line height at 0 to fit the icon */
     transition: color 0.3s; /* Smooth transition for hover effect */
 }
+.form-input-leftright {
+    display: flex;
+    flex-direction: column; 
+    gap: 15px; /* Adds spacing between input fields */
+  }
+  
+  .input-wrapper {
+    margin-bottom: 15px; /* Adjusts margin between fields */
+  }
+  .datepicker-wrapper {
+    margin-top: 10px; /* Add some space between the label and the input */
+  }
+  label {
+    margin-bottom: 5px; /* Adds space between label and input */
+  }
+  
