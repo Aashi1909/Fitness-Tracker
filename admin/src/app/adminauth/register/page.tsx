@@ -1,7 +1,7 @@
 
 'use client'
 import React, {useState} from 'react';
-import './auth.css'
+// import './auth.css'
 import { ToastContainer, toast } from 'react-toastify';
 
 const SignupPage = () => {
@@ -11,7 +11,8 @@ const SignupPage = () => {
 
     const handleSignUp = async()=>
       {
-      const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_API + '/admin/register', {
+        try{
+        const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_API + '/admin/register', {
         method : 'POST',
         headers:{
           'Content-Type': 'application/json'
@@ -19,19 +20,23 @@ const SignupPage = () => {
         body: JSON.stringify({name, email, password}),
         credentials:'include'
       })
-      if(response.ok){
-        const data = await response.json()
+      const data = await response.json()
+      if(data.ok){
         console.log(data, "datatta")
         toast.success("Admin Registered Succeesful", {
-          position: toast.POSITION.TOP_CENTER,
+          position: 'top-center',
         })
       }
       else{
         toast.error('Admin Registered Failed',{
-          position: toast.POSITION.TOP_CENTER
+          position: 'top-center',
+
 
         })
       }
+    }catch(error){
+      toast.error('Error occured')
+    }
 
     }
 
