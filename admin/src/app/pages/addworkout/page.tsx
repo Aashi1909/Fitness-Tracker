@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import './addworkout.css';
 import { toast } from 'react-toastify';
@@ -44,20 +45,58 @@ const page = () => {
         setExercise({...exercise, [e.target.name]: e.target.value})
     }
     const addExerciseToWorkout = () => {
+        // if(exercise.name === '' || exercise.description === '' || exercise.sets === 0 || exercise.reps === 0 || exercise.imageFile === null){
+        //     toast.error('Please fill in all the fields', {
+        //         position: 'top-center',
+        //     })
+        //     return;
+            
+        // }
         setWorkout({...workout, exercises: [...workout.exercises, exercise]})
     }
     const deleteExerciseFromWorkout = (index: number) => {
-        setWorkout({...workout, exercises: workout.exercises.filter((_, i) => i !== index)})
+        setWorkout({...workout, exercises: workout.exercises.filter((exercise, i) => i !== index)})
     }
-    const uploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if(e.target.files){
-            setWorkout({...workout, imageFile: e.target.files[0], imageURL: URL.createObjectURL(e.target.files[0])})
+
+    const uploadImage = async(image:File)=> {
+        const formData = new FormData();
+        formData.append('image', image);
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/image-upload/uploadimage`, {
+                method: 'POST',
+                body: formData
+            });
+            if(response.ok) {
+                const data = await response.json();
+                console.log("Image uploaded successfully", data);
+                return data.imageUrl;
+            }
+            else{
+                return null;
+            }
+        } catch (err) {
+            console.log(err);
         }
     }
-    const checkLogin = () => {
+    const checkLogin = async() => {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/admin/checklogin`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        })
+        if(response.ok) {   
+            console.log("User logged in");
+        }
+        else{
+            window.location.href = '/adminauth/login'
+        }
         
     }
-    const saveWorkout = () => {
+    const saveWorkout = async() => {
+        await checkLogin();
+        console.log(workout);
         
     }
   return (
@@ -78,9 +117,29 @@ const page = () => {
             <label htmlFor='sets'>Reps</label>
             <input type='number' placeholder='reps' name='reps' value={exercise.reps} onChange={handleExerciseChange} />
             <input type='file' placeholder='Exercise Image' name='imageFile' onChange={(e) => setExercise({...exercise, imageFile: e.target.files![0]})} />
-            <button onClick={(e) => {addExerciseToWorkout}}>Add Exercise</button>
+            <button onClick={(e) => {addExerciseToWorkout(e)}}>Add Exercise</button>
 
         </div>
+
+        <div className='exercises'>
+            {
+                workout.exercises.map((exercise, index) => (
+                    <div className='exercise' key={index}>
+                        <h2>{exercise.name}</h2>
+                        <p>{exercise.description}</p>
+                        <p>{exercise.sets}</p>
+                        <p>{exercise.reps}</p>
+                       {/* Converting file into  a url */}
+                       <img src={exercise.imageFile? URL.createObjectURL(exercise.imageFile) : exercise.imageURL} alt=" "/> 
+                        <button onClick={() => deleteExerciseFromWorkout(index)}>Delete Exercise</button>
+                        
+                    </div>
+                ))
+            }
+
+        </div>
+        <button onClick={(e) =>{saveWorkout(e)}}>Save Workout</button>
+
     </div>
   )
 }
