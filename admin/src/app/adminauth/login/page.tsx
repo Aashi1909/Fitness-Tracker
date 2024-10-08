@@ -41,12 +41,15 @@ const SigninPage = () => {
     }
 
   return (
-  <div className='formpage'>
-    <input type='email' placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} />
-    <input type='password' placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
-    <button onClick={handleLogin}>Login</button>
-
+    <div className="formpage">
+    <div className="form-card">
+      <h2>Login</h2>
+      <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+      <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+      <button onClick={handleLogin}>Login</button>
+    </div>
   </div>
+  
 )};
 
 export default SigninPage;

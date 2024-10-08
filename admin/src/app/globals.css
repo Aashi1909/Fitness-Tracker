@@ -27,4 +27,72 @@ button:hover{
     justify-content: center;
     align-items: center;
     flex-direction: column;
+
 }
+  
+  /* Card with borders and shadow */
+  .form-card {
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    border: 2px solid #ddd;  /* Adding border */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);  /* Shadow for depth */
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  /* Form header */
+  .form-card h2 {
+    margin-bottom: 25px;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  /* Input field styles */
+  .form-card input {
+    width: 90%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;  /* Border around inputs */
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+  }
+  .form-card input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+  
+  /* Button styles */
+  .form-card button {
+    width: 100%;
+    padding: 12px;
+    background-color: #ffc20e;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Button hover effect */
+  .form-card button:hover {
+    background-color: #61532c;
+  }
+  
+  /* Mobile responsiveness */
+  @media (max-width: 480px) {
+    .form-card {
+      padding: 30px;
+    }
+  
+    .form-card input,
+    .form-card button {
+      font-size: 14px;
+    }
+  }
+  
+  
