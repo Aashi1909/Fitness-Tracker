@@ -118,7 +118,7 @@ const page = () => {
                 workout.exercises[i].imageURL = imageURL; // creating the imageUrl for every exercise image
             }
         }
-        const response = await fetch(`${process.env.NEXT_PUBLICBACKEND_API}/workoutplans/workout`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/workoutplans/workout`, {
             method: 'POST', 
             headers:{
                 'Content-Type': 'application/json'
@@ -134,7 +134,6 @@ const page = () => {
             })
         }
         else{
-           console.log("Something went wrong")
            toast.error("Workout creation failed", {
             position: 'top-center'
            })

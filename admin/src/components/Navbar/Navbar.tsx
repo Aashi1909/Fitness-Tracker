@@ -42,8 +42,8 @@ const Navbar = () => {
           </>
         ):(
           <>
-          <Link href='./adminauth/login'>Login</Link>
-          <Link href='./adminauth/register'>Register</Link>
+          <Link href='/adminauth/login'>Login</Link>
+          <Link href='/adminauth/register'>Register</Link>
           </>
         )}
       </div>
