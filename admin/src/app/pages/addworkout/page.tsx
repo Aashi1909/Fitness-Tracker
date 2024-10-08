@@ -45,13 +45,13 @@ const page = () => {
         setExercise({...exercise, [e.target.name]: e.target.value})
     }
     const addExerciseToWorkout = () => {
-        // if(exercise.name === '' || exercise.description === '' || exercise.sets === 0 || exercise.reps === 0 || exercise.imageFile === null){
-        //     toast.error('Please fill in all the fields', {
-        //         position: 'top-center',
-        //     })
-        //     return;
+        if(exercise.name === '' || exercise.description === '' || exercise.sets === 0 || exercise.reps === 0 || exercise.imageFile === null){
+            toast.error('Please fill in all the fields', {
+                position: 'top-center',
+            })
+            return;
             
-        // }
+        }
         setWorkout({...workout, exercises: [...workout.exercises, exercise]})
     }
     const deleteExerciseFromWorkout = (index: number) => {
@@ -94,11 +94,52 @@ const page = () => {
         }
         
     }
-    const saveWorkout = async() => {
+    const saveWorkout = async () => {
         await checkLogin();
         console.log(workout);
-        
-    }
+    
+        if (exercise.name === '' || exercise.description === '' || exercise.sets === 0 || exercise.reps === 0 || exercise.imageFile === null) {
+            toast.error('Please fill in all the fields', {
+                position: 'top-center',
+            });
+            return;
+        }
+    
+        if (workout.imageFile) {
+            const imageURL = await uploadImage(workout.imageFile);
+            if(imageURL){
+                setWorkout({...workout, imageURL})
+            }
+        }
+        for(let i=0; i<workout.exercises.length; i++){
+            let tempImg = workout.exercises[i].imageFile // getting the specific execrcise image
+            if(tempImg){
+                let imageURL = await uploadImage(tempImg);
+                workout.exercises[i].imageURL = imageURL; // creating the imageUrl for every exercise image
+            }
+        }
+        const response = await fetch(`${process.env.NEXT_PUBLICBACKEND_API}/workoutplans/workout`, {
+            method: 'POST', 
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(workout),
+            credentials: 'include'
+        })
+        if(response.ok)
+        {
+            const data= await response.json()
+            toast.success('Workout created successfully', {
+                position: 'top-center'
+            })
+        }
+        else{
+           console.log("Something went wrong")
+           toast.error("Workout creation failed", {
+            position: 'top-center'
+           })
+        }
+    };
   return (
     <div className='formpage'>
         <h1 className='title'>Add Workout</h1>

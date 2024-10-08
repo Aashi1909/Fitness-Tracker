@@ -22,7 +22,6 @@ const SignupPage = () => {
       })
       const data = await response.json()
       if(data.ok){
-        console.log(data, "datatta")
         toast.success("Admin Registered Succeesful", {
           position: 'top-center',
         })
