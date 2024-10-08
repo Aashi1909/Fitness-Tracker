@@ -60,7 +60,7 @@ const page = () => {
 
     const uploadImage = async(image:File)=> {
         const formData = new FormData();
-        formData.append('image', image);
+        formData.append('myimage', image);
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/image-upload/uploadimage`, {
                 method: 'POST',
@@ -96,7 +96,7 @@ const page = () => {
     }
     const saveWorkout = async () => {
         await checkLogin();
-        console.log(workout);
+        console.log(workout, "oihbg");
     
         if (exercise.name === '' || exercise.description === '' || exercise.sets === 0 || exercise.reps === 0 || exercise.imageFile === null) {
             toast.error('Please fill in all the fields', {
@@ -118,7 +118,7 @@ const page = () => {
                 workout.exercises[i].imageURL = imageURL; // creating the imageUrl for every exercise image
             }
         }
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/workoutplans/workout`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/workoutplans/workouts`, {
             method: 'POST', 
             headers:{
                 'Content-Type': 'application/json'
@@ -129,6 +129,7 @@ const page = () => {
         if(response.ok)
         {
             const data= await response.json()
+            console.log(data, "data")
             toast.success('Workout created successfully', {
                 position: 'top-center'
             })
