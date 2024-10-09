@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
-import axios from 'axios';
 import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
 
@@ -18,33 +17,72 @@ const SleepReport = () => {
     fetchSleepData();
   }, []);
 
-  const fetchSleepData = async () => {
-    try {
-      const response = await axios.post('/api/sleep/getsleepbydate', { date: null });
-      setSleepData(response.data.data);
-    } catch (error) {
-      toast.error('Failed to fetch sleep data');
-    }
+  const fetchSleepData = () => {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/sleeptrack/getsleepbydate`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ date: null }), // sending null to fetch recent data
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.ok) {
+          setSleepData(data.data);
+        } else {
+          toast.error('Failed to fetch sleep data');
+        }
+      })
+      .catch((err) => {
+        toast.error('Error fetching sleep data');
+        console.error(err);
+      });
   };
 
-  const handleAddSleep = async () => {
-    try {
-      await axios.post('/api/sleep/addsleepentry', newEntry);
-      toast.success('Sleep entry added successfully');
-      fetchSleepData();  // Refresh data after adding
-    } catch (error) {
-      toast.error('Error adding sleep entry');
-    }
+  const handleAddSleep = () => {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/sleeptrack/addsleepentry`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newEntry),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.ok) {
+          toast.success('Sleep entry added successfully');
+          fetchSleepData(); // Refresh data after adding
+        } else {
+          toast.error(data.message);
+        }
+      })
+      .catch((err) => {
+        toast.error('Error adding sleep entry');
+        console.error(err);
+      });
   };
 
-  const handleDeleteSleep = async () => {
-    try {
-      await axios.post('/api/sleep/deletesleepentry', { date: deleteDate });
-      toast.success('Sleep entry deleted successfully');
-      fetchSleepData();  // Refresh data after deleting
-    } catch (error) {
-      toast.error('Error deleting sleep entry');
-    }
+  const handleDeleteSleep = () => {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/sleeptrack/deletesleepentry`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ date: deleteDate }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.ok) {
+          toast.success('Sleep entry deleted successfully');
+          fetchSleepData(); // Refresh data after deleting
+        } else {
+          toast.error(data.message);
+        }
+      })
+      .catch((err) => {
+        toast.error('Error deleting sleep entry');
+        console.error(err);
+      });
   };
 
   // Prepare chart data
