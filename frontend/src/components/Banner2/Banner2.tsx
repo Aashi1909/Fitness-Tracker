@@ -1,6 +1,8 @@
 import React from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import './Banner2.css'
+import { ToastContainer, toast } from 'react-toastify'
+
 
 // Import Swiper styles
 import 'swiper/css';
@@ -12,6 +14,7 @@ import { Navigation } from 'swiper/modules';
 
 const Banner2 = () => {
   const [workouts, setWorkouts]  = React.useState<any[] |null>(null)
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const getWorkouts = async () => {
     let data: any = [
       {
@@ -66,8 +69,20 @@ const Banner2 = () => {
   }
   React.useEffect(() => {
     getWorkouts()
-  }, [])
-    
+
+  const user = localStorage.getItem('user'); 
+  console.log(user, "USERR")
+  setIsLoggedIn(!!user); // double negotiation used to convert values into boolean
+}, []);
+
+const handleCardClick = (type: string) => {
+  if (isLoggedIn) {
+    window.location.href = `/workout/${type}`;
+  } else {
+    toast.error('Please Login to view this Workout!');
+  }
+};
+  
   return (
     <div>
       <h1 className='mainhead1'>Workouts</h1>
@@ -100,9 +115,7 @@ const Banner2 = () => {
                   style={{
                     backgroundImage: `url(${item.imageUrl})`,
                   }}
-                  onClick={() => {
-                    window.location.href = `/workout/${item.type}`
-                  }}
+                  onClick={() => handleCardClick(item.type)}
                 >
                   <div className='swiper-slide-content'>
                     <h2>{item.type}</h2>
