@@ -1,7 +1,12 @@
+"use client"
 import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
+
+// Registering necessary components
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 interface SleepEntry {
   date: string;
@@ -18,12 +23,12 @@ const SleepReport = () => {
   }, []);
 
   const fetchSleepData = () => {
-    fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/sleeptrack/getsleepbydate`, {
+    fetch(process.env.NEXT_PUBLIC_BACKEND_API +'/sleeptrack/getsleepbydate', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ date: null }), // sending null to fetch recent data
+      body: JSON.stringify({ date: null }), 
     })
       .then((res) => res.json())
       .then((data) => {
