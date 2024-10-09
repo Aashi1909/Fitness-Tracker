@@ -53,9 +53,6 @@ router.get('/getreport', authTokenHandler, async (req, res) => {
 
     // get today's weight
     let weight = user.weight[user.weight.length - 1].weight;
-    // get today's height
-    let height = user.height[user.height.length - 1].height;
-
     // get this week's workout
     let workout = 0;
     user.workouts.forEach((entry) => {
@@ -132,12 +129,6 @@ router.get('/getreport', authTokenHandler, async (req, res) => {
             value : weight,
             goal : goalWeight,
             unit : "kg",
-        },
-        {
-            name : "Height",
-            value : height,
-            goal : "",
-            unit : "cm",
         },
     ]
 
