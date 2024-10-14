@@ -1,20 +1,19 @@
-import React from 'react'
+import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import './Banner2.css'
 import { ToastContainer, toast } from 'react-toastify'
-
+import { useUserContext } from '@/components/context/UserContext'; 
 
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-// import required modules
 import { Navigation } from 'swiper/modules';
 
 
 const Banner2 = () => {
   const [workouts, setWorkouts]  = React.useState<any[] |null>(null)
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const { isLoggedIn } = useUserContext(); // Now using custom hook
   const getWorkouts = async () => {
     let data: any = [
       {
@@ -69,10 +68,6 @@ const Banner2 = () => {
   }
   React.useEffect(() => {
     getWorkouts()
-
-  const user = localStorage.getItem('user'); 
-  console.log(user, "USERR")
-  setIsLoggedIn(!!user); // double negotiation used to convert values into boolean
 }, []);
 
 const handleCardClick = (type: string) => {

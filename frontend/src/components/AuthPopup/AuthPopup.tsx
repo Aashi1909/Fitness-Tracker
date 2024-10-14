@@ -13,6 +13,8 @@ import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {DesktopDatePicker} from '@mui/x-date-pickers';
 import {StaticDatePicker} from '@mui/x-date-pickers/StaticDatePicker';
 import { ToastContainer, toast } from 'react-toastify'
+import { useUserContext } from "@/components/context/UserContext";
+
 
 
 
@@ -32,6 +34,7 @@ interface SignUpFormData{
     activityLevel: String | null
 }
 const AuthPopup  : React.FC<AuthPopupProps> = ({setShowPopup}) => {
+    const { login } = useUserContext(); 
     const[showSignup, setShowSignup] = React.useState<boolean>(false)
     const[signupformData, setSignUpFormData] = React.useState<SignUpFormData>({
         name: ' ',
@@ -67,6 +70,7 @@ const AuthPopup  : React.FC<AuthPopupProps> = ({setShowPopup}) => {
 
                 if (data.ok) {
                     toast.success(data.message)
+                    login();
                     setShowPopup(false)
                 }
                 else {
@@ -88,7 +92,6 @@ const AuthPopup  : React.FC<AuthPopupProps> = ({setShowPopup}) => {
         })
         .then(res => res.json())
         .then(data => {
-            console.log(data)
             if(data.ok){
                 toast.success(data.message)
                 setShowSignup(false)
