@@ -50,7 +50,7 @@ const ReportPage = () => {
   };
 
   const handleAddEntry = () => {
-    fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/${type}track/add${type}entry`, {  // Dynamically construct the add entry endpoint
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/${type}track/add${type}entry`, {  
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ const ReportPage = () => {
   };
 
   const handleDeleteEntry = () => {
-    fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/${type}track/delete${type}entry`, {  // Dynamically construct the delete entry endpoint
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/${type}track/delete${type}entry`, {  
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -99,9 +99,8 @@ const ReportPage = () => {
     labels: reportData.slice(-7).map((entry) => dayjs(entry.date).format('DD/MM')),
     datasets: [
       {
-        label: type === 'sleep' ? 'Hours Slept' : type === 'water' ? 'Liters Drank' : 'Steps Taken', // Adjust label for different report types
-        data: reportData.slice(-7).map((entry) => entry.value),
-        backgroundColor: type === 'sleep' ? '#4CAF50' : type === 'water' ? '#2196F3' : '#FFC107', // Different colors for different report types
+        label: type === 'sleep' ? 'Hours Slept' : type === 'water' ? 'Liters Drank' : type === 'step' ? 'Steps Taken' : type === 'workout' ? 'Workout Done' : 'Cm',  
+        backgroundColor: type === 'sleep' ? '#4CAF50' : type === 'water' ? '#2196F3' : '#FFC107', 
       },
     ],
   };
