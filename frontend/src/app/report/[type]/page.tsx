@@ -1,120 +1,118 @@
-'use client';
+"use client"
 import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
-import { useRouter } from 'next/router';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-interface ReportEntry {
+interface SleepEntry {
   date: string;
-  value: number;  // For sleep, it could be hours; for water, it could be liters, for steps, step count, etc.
+  durationInHrs: number;
 }
 
-const ReportPage = () => {
-  const router = useRouter();
-  const { type } = router.query;  // 'sleep', 'water', 'step', etc.
-  
-  const [reportData, setReportData] = useState<ReportEntry[]>([]);
-  const [newEntry, setNewEntry] = useState({ date: '', value: 0 });
+const SleepReport = () => {
+  const [sleepData, setSleepData] = useState<SleepEntry[]>([]);
+  const [newEntry, setNewEntry] = useState({ date: '', durationInHrs: 0 });
   const [deleteDate, setDeleteDate] = useState('');
 
   useEffect(() => {
-    if (type) {
-      fetchReportData();
-    }
-  }, [type]);
+    fetchSleepData();
+  }, []);
 
-  const fetchReportData = () => {
-    fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/${type}track/getbydate`, {
+  const fetchSleepData = () => {
+    fetch(process.env.NEXT_PUBLIC_BACKEND_API +'/sleeptrack/getsleepbydate', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ date: null }),
+      body: JSON.stringify({ date: null }), 
+      credentials: 'include',
     })
       .then((res) => res.json())
       .then((data) => {
         if (data.ok) {
-          setReportData(data.data);
+          setSleepData(data.data);
         } else {
-          toast.error(`Failed to fetch ${type} data`);
+          toast.error('Failed to fetch sleep data');
         }
       })
       .catch((err) => {
-        toast.error(`Error fetching ${type} data`);
+        toast.error('Error fetching sleep data');
         console.error(err);
       });
   };
 
-  const handleAddEntry = () => {
-    fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/${type}track/add${type}entry`, {  
+  const handleAddSleep = () => {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/sleeptrack/addsleepentry`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(newEntry),
+      credentials: 'include',
     })
       .then((res) => res.json())
       .then((data) => {
         if (data.ok) {
-          toast.success(`${type} entry added successfully`);
-          fetchReportData(); // Refresh data
+          toast.success('Sleep entry added successfully');
+          fetchSleepData(); 
         } else {
           toast.error(data.message);
         }
       })
       .catch((err) => {
-        toast.error(`Error adding ${type} entry`);
+        toast.error('Error adding sleep entry');
         console.error(err);
       });
   };
 
-  const handleDeleteEntry = () => {
-    fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/${type}track/delete${type}entry`, {  
+  const handleDeleteSleep = () => {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/sleeptrack/deletesleepentry`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ date: deleteDate }),
+      credentials: 'include',
     })
       .then((res) => res.json())
       .then((data) => {
         if (data.ok) {
-          toast.success(`${type} entry deleted successfully`);
-          fetchReportData(); // Refresh data
+          toast.success('Sleep entry deleted successfully');
+          fetchSleepData(); // Refresh data after deleting
         } else {
           toast.error(data.message);
         }
       })
       .catch((err) => {
-        toast.error(`Error deleting ${type} entry`);
+        toast.error('Error deleting sleep entry');
         console.error(err);
       });
   };
 
   const chartData = {
-    labels: reportData.slice(-7).map((entry) => dayjs(entry.date).format('DD/MM')),
+    labels: sleepData.slice(-7).map((entry) => dayjs(entry.date).format('DD/MM')),
     datasets: [
       {
-        label: type === 'sleep' ? 'Hours Slept' : type === 'water' ? 'Liters Drank' : type === 'step' ? 'Steps Taken' : type === 'workout' ? 'Workout Done' : 'Cm',  
-        backgroundColor: type === 'sleep' ? '#4CAF50' : type === 'water' ? '#2196F3' : '#FFC107', 
+        label: 'Hours Slept',
+        data: sleepData.slice(-7).map((entry) => entry.durationInHrs),
+        backgroundColor: '#4CAF50',
       },
     ],
   };
 
   return (
-    <div className="report">
-      <h1>{type.charAt(0).toUpperCase() + type.slice(1)} Report</h1>
+    <div className="sleep-report">
+      <h1>Sleep Report</h1>
 
       <div className="chart-container">
         <Bar data={chartData} />
       </div>
 
-      <div className="add-entry">
-        <h2>Add {type.charAt(0).toUpperCase() + type.slice(1)} Entry</h2>
+      <div className="add-sleep-entry">
+        <h2>Add Sleep Entry</h2>
         <input
           type="date"
           value={newEntry.date}
@@ -123,25 +121,25 @@ const ReportPage = () => {
         />
         <input
           type="number"
-          value={newEntry.value}
-          onChange={(e) => setNewEntry({ ...newEntry, value: Number(e.target.value) })}
-          placeholder={`Value (${type === 'sleep' ? 'hrs' : type === 'water' ? 'liters' : 'steps'})`}
+          value={newEntry.durationInHrs}
+          onChange={(e) => setNewEntry({ ...newEntry, durationInHrs: Number(e.target.value) })}
+          placeholder="Duration (hrs)"
         />
-        <button onClick={handleAddEntry}>Add Entry</button>
+        <button onClick={handleAddSleep}>Add Entry</button>
       </div>
 
-      <div className="delete-entry">
-        <h2>Delete {type.charAt(0).toUpperCase() + type.slice(1)} Entry</h2>
+      <div className="delete-sleep-entry">
+        <h2>Delete Sleep Entry</h2>
         <input
           type="date"
           value={deleteDate}
           onChange={(e) => setDeleteDate(e.target.value)}
           placeholder="Date"
         />
-        <button onClick={handleDeleteEntry}>Delete Entry</button>
+        <button onClick={handleDeleteSleep}>Delete Entry</button>
       </div>
     </div>
   );
 };
 
-export default ReportPage;
+export default SleepReport;
