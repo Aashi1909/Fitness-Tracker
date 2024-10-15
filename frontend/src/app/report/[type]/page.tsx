@@ -10,12 +10,12 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 interface ReportEntry {
   date: string;
-  value: number;  // For sleep, it could be hours; for water, it could be liters
+  value: number;  // For sleep, it could be hours; for water, it could be liters, for steps, step count, etc.
 }
 
 const ReportPage = () => {
   const router = useRouter();
-  const { type } = router.query;  // 'sleep', 'water', etc.
+  const { type } = router.query;  // 'sleep', 'water', 'step', etc.
   
   const [reportData, setReportData] = useState<ReportEntry[]>([]);
   const [newEntry, setNewEntry] = useState({ date: '', value: 0 });
@@ -50,7 +50,7 @@ const ReportPage = () => {
   };
 
   const handleAddEntry = () => {
-    fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/${type}track/addentry`, {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/${type}track/add${type}entry`, {  // Dynamically construct the add entry endpoint
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ const ReportPage = () => {
   };
 
   const handleDeleteEntry = () => {
-    fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/${type}track/deleteentry`, {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/${type}track/delete${type}entry`, {  // Dynamically construct the delete entry endpoint
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -99,9 +99,9 @@ const ReportPage = () => {
     labels: reportData.slice(-7).map((entry) => dayjs(entry.date).format('DD/MM')),
     datasets: [
       {
-        label: type === 'sleep' ? 'Hours Slept' : 'Liters Drank', // Adjust label for different report types
+        label: type === 'sleep' ? 'Hours Slept' : type === 'water' ? 'Liters Drank' : 'Steps Taken', // Adjust label for different report types
         data: reportData.slice(-7).map((entry) => entry.value),
-        backgroundColor: type === 'sleep' ? '#4CAF50' : '#2196F3', // Different colors for different report types
+        backgroundColor: type === 'sleep' ? '#4CAF50' : type === 'water' ? '#2196F3' : '#FFC107', // Different colors for different report types
       },
     ],
   };
@@ -126,7 +126,7 @@ const ReportPage = () => {
           type="number"
           value={newEntry.value}
           onChange={(e) => setNewEntry({ ...newEntry, value: Number(e.target.value) })}
-          placeholder={`Value (${type === 'sleep' ? 'hrs' : 'liters'})`}
+          placeholder={`Value (${type === 'sleep' ? 'hrs' : type === 'water' ? 'liters' : 'steps'})`}
         />
         <button onClick={handleAddEntry}>Add Entry</button>
       </div>
