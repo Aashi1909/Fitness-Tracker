@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 
 function checkAuth(req, res, next){
-    // getting the token from cookies
     const authToken = req.cookies.authToken;
     const refreshToken = req.cookies.refreshToken;
 
@@ -17,20 +16,27 @@ function checkAuth(req, res, next){
                     return res.status(401).json({ message: 'Authentication failed: Both tokens are invalid', ok: false });
                 } else {
                     // Generate new auth and refresh tokens
-                    const newAuthToken = jwt.sign({ userId: refreshDecoded.userId }, process.env.JWT_SECRET_KEY, { expiresIn: '10m' });
+                    const newAuthToken = jwt.sign({ userId: refreshDecoded.userId }, process.env.JWT_SECRET_KEY, { expiresIn: '10d' });
                     const newRefreshToken = jwt.sign({ userId: refreshDecoded.userId }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '10d' });
 
-                    res.cookie('authToken', newAuthToken, { httpOnly: true });
-                    res.cookie('refreshToken', newRefreshToken, { httpOnly: true });
+                    res.cookie('authToken', newAuthToken, {
+                        httpOnly: true,
+                        sameSite: 'None',
+                        secure: false 
+                      });
+                      res.cookie('refreshToken', newRefreshToken, {
+                        httpOnly: true,
+                        sameSite: 'None',
+                        secure: false
+                      });
+                      
 
-                    // Continue processing the request with the new auth token
                     req.userId = refreshDecoded.userId;
                     req.ok = true;
                     next();
                 }
             });
         } else {
-            // Auth token is valid, continue with the request
             req.userId = decoded.userId;
             next();
         }

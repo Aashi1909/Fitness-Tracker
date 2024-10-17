@@ -12,21 +12,39 @@ function createResponse(ok, message, data){
     }
 }
 
-router.post('/addsleepentry', authTokenHandler, async(req, res, next) =>{
-    const {date, durationInHrs} = req.body;
+router.post('/addsleepentry', authTokenHandler, async (req, res, next) => {
+    console.log('Cookies:', req.cookies); 
+    const { date, durationInHrs } = req.body;
     const userId = req.userId;
-    const user = await User.findById({_id: userId})
-    if(!date || !durationInHrs)
-    {
-        return res.status(400).json(createResponse(false, 'Please provide sleep date and duration'))
+    
+    // Check if date and durationInHrs are provided
+    if (!date || !durationInHrs) {
+        return res.status(400).json(createResponse(false, 'Please provide sleep date and duration'));
     }
-   user.sleep.push({
-    date : new Date(date),
-    durationInHrs
-   })
-   await user.save();
-   res.json(createResponse(true, 'Sleep entry added successfully'))
-})
+
+    try {
+        const user = await User.findById({ _id: userId });
+        if (!user) {
+            return res.status(404).json(createResponse(false, 'User not found'));
+        }
+
+        // Add the sleep entry to the user
+        user.sleep.push({
+            date: new Date(date),
+            durationInHrs
+        });
+
+        // Save the user document
+        await user.save();
+
+        // Respond with success after saving
+        return res.json(createResponse(true, 'Sleep entry added successfully'));
+    } catch (error) {
+        // Catch any errors and send an appropriate response
+        return res.status(500).json(createResponse(false, 'Server error'));
+    }
+});
+
 
 router.post('/getsleepbydate', authTokenHandler, async(req, res, next) => {
     const {date } = req.body;

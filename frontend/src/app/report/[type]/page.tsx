@@ -32,6 +32,7 @@ const SleepReport = () => {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data, "datatttata");
         if (data.ok) {
           setSleepData(data.data);
         } else {
