@@ -5,6 +5,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
 import './ReportPage.css';
+import { color } from 'chart.js/helpers';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -94,19 +95,18 @@ const SleepReport = () => {
       });
   };
 
- // Helper function to aggregate sleep data in O(n) time
+ // Helper function to aggregate sleep data 
 const aggregateSleepData = (sleepData: SleepEntry[]) => {
   const sleepObj: Record<string, number> = {};
 
   // Single pass to aggregate data
   sleepData.forEach((entry) => {
-    const formattedDate = dayjs(entry.date).format('YYYY-MM-DD'); // Standardize the date
+    const formattedDate = dayjs(entry.date).format('YYYY-MM-DD'); 
 
     // Sum hours for duplicate dates
     sleepObj[formattedDate] = (sleepObj[formattedDate] || 0) + entry.durationInHrs;
   });
 
-  // Convert the object back to an array and sort in O(n log n)
   return Object.entries(sleepObj)
     .map(([date, durationInHrs]) => ({ date, durationInHrs }))
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
@@ -115,14 +115,13 @@ const aggregateSleepData = (sleepData: SleepEntry[]) => {
 // Aggregate and sort sleep data
 const sortedSleepData = aggregateSleepData(sleepData);
 
-// Prepare the chart data
 const chartData = {
-  labels: sortedSleepData.slice(-10).map((entry) => dayjs(entry.date).format('DD/MM')), // Dates on X-axis
+  labels: sortedSleepData.slice(-10).map((entry) => dayjs(entry.date).format('DD/MM')), 
   datasets: [
     {
       label: 'Hours Slept',
-      data: sortedSleepData.slice(-10).map((entry) => entry.durationInHrs), // Duration on Y-axis
-      backgroundColor: '#4CAF50',
+      data: sortedSleepData.slice(-10).map((entry) => entry.durationInHrs), 
+      backgroundColor: '#e0c34c',
     },
   ],
 };
@@ -133,14 +132,23 @@ const chartOptions = {
       title: {
         display: true,
         text: 'Date',
+        color: 'black',
+        font: {
+          weight: 'bold', 
+        },
       },
     },
     y: {
       title: {
         display: true,
         text: 'Duration in Hours',
+        color: 'black',
+        font: {
+          weight: 'bold', 
+        },
+
       },
-      min: 0, // Set minimum value for Y-axis
+      min: 0, 
     },
   },
 };
@@ -150,6 +158,12 @@ const chartOptions = {
   return (
     <div className="sleep-report">
       <h1>Sleep Report</h1>
+
+      <div className="summary">
+  <p>
+    Use the chart to visualize your sleep data for the past week, empowering you to make healthier choices for better rest.Stay committed to your sleep goals and discover the impact of quality sleep on your health and productivity.
+  </p>
+</div>
 
       <div className="chart-container">
       <Bar data={chartData} options={chartOptions} />      

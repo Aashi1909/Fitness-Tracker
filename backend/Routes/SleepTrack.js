@@ -52,13 +52,14 @@ router.post('/getsleepbydate', authTokenHandler, async(req, res, next) => {
     const user = await User.findById({_id: userId})
 
     if(!date){
-        let date = new Date()
-        user.sleep =filterByDate(user.sleep, date)
         res.json(createResponse(true, 'Sleep for date', user.sleep))
     }
-    // if date is provided
-    user.sleep = filterByDate(user.sleep, new Date(date))
-    res.json(createResponse(true, 'Sleep entries for the date', user.sleep))
+    else{
+        // if date is provided
+        user.sleep = filterByDate(user.sleep, new Date(date))
+        res.json(createResponse(true, 'Sleep entries for the date', user.sleep))
+
+    }
 })
 router.post('./deletesleepentry', authTokenHandler, async(req, res, next)=>{
     const {date} = req.body;
