@@ -82,6 +82,7 @@ const SleepReport = () => {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data, "delete");
         if (data.ok) {
           toast.success('Sleep entry deleted successfully');
           fetchSleepData(); // Refresh data after deleting

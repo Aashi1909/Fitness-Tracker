@@ -61,7 +61,7 @@ router.post('/getsleepbydate', authTokenHandler, async(req, res, next) => {
 
     }
 })
-router.post('./deletesleepentry', authTokenHandler, async(req, res, next)=>{
+router.post('/deletesleepentry', authTokenHandler, async(req, res, next)=>{
     const {date} = req.body;
     const userId = req.userId;
     const user = await User.findById({_id: userId})
@@ -76,14 +76,6 @@ router.post('./deletesleepentry', authTokenHandler, async(req, res, next)=>{
     await user.save();
     res.json(createResponse(true, 'Sleep entry deleted Successfully'))
  })
-
-router.post('./getusersleep', authTokenHandler, async(req, res, next) =>{
-    const userId = req.userId;
-    const user = await User.findById({_id: userId});
-
-        let goalSleep = 6;
-        res.json(createResponse(true, 'User max sleep information', {goalSleep}))
-})
 
 router.use(errorHandler);
 
