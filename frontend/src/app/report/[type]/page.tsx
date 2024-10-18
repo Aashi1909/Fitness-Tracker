@@ -4,6 +4,7 @@ import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
+import './ReportPage.css';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -93,23 +94,65 @@ const SleepReport = () => {
       });
   };
 
-  const chartData = {
-    labels: sleepData.slice(-7).map((entry) => dayjs(entry.date).format('DD/MM')),
-    datasets: [
-      {
-        label: 'Hours Slept',
-        data: sleepData.slice(-7).map((entry) => entry.durationInHrs),
-        backgroundColor: '#4CAF50',
+ // Helper function to aggregate sleep data in O(n) time
+const aggregateSleepData = (sleepData: SleepEntry[]) => {
+  const sleepObj: Record<string, number> = {};
+
+  // Single pass to aggregate data
+  sleepData.forEach((entry) => {
+    const formattedDate = dayjs(entry.date).format('YYYY-MM-DD'); // Standardize the date
+
+    // Sum hours for duplicate dates
+    sleepObj[formattedDate] = (sleepObj[formattedDate] || 0) + entry.durationInHrs;
+  });
+
+  // Convert the object back to an array and sort in O(n log n)
+  return Object.entries(sleepObj)
+    .map(([date, durationInHrs]) => ({ date, durationInHrs }))
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+};
+
+// Aggregate and sort sleep data
+const sortedSleepData = aggregateSleepData(sleepData);
+
+// Prepare the chart data
+const chartData = {
+  labels: sortedSleepData.slice(-10).map((entry) => dayjs(entry.date).format('DD/MM')), // Dates on X-axis
+  datasets: [
+    {
+      label: 'Hours Slept',
+      data: sortedSleepData.slice(-10).map((entry) => entry.durationInHrs), // Duration on Y-axis
+      backgroundColor: '#4CAF50',
+    },
+  ],
+};
+
+const chartOptions = {
+  scales: {
+    x: {
+      title: {
+        display: true,
+        text: 'Date',
       },
-    ],
-  };
+    },
+    y: {
+      title: {
+        display: true,
+        text: 'Duration in Hours',
+      },
+      min: 0, // Set minimum value for Y-axis
+    },
+  },
+};
+
+
 
   return (
     <div className="sleep-report">
       <h1>Sleep Report</h1>
 
       <div className="chart-container">
-        <Bar data={chartData} />
+      <Bar data={chartData} options={chartOptions} />      
       </div>
 
       <div className="add-sleep-entry">

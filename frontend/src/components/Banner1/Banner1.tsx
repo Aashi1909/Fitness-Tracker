@@ -3,6 +3,7 @@ import CircularProgress from '@mui/joy/CircularProgress';
 import { FaGreaterThan } from "react-icons/fa";
 import './Banner1.css'
 
+
 const Banner1 = () => {
 
 

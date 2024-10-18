@@ -1,6 +1,7 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import './Banner2.css'
+
 import { ToastContainer, toast } from 'react-toastify'
 import { useUserContext } from '@/components/context/UserContext'; 
 
