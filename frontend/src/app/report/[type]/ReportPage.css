@@ -15,7 +15,7 @@ body{
   }
   
   .chart-container {
-    width: 100%; 
+    width: 50%; 
     height: 400px;
     margin: 10px auto; 
     display: flex;

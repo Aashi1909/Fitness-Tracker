@@ -5,7 +5,9 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
 import './ReportPage.css';
-import { color } from 'chart.js/helpers';
+// import { color } from 'chart.js/helpers';
+import { FaEdit } from 'react-icons/fa';  // Import the edit icon
+import SleepEntryPopup from '@/components/SleepEntry/SleepEntryPopup'; 
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -18,6 +20,8 @@ const SleepReport = () => {
   const [sleepData, setSleepData] = useState<SleepEntry[]>([]);
   const [newEntry, setNewEntry] = useState({ date: '', durationInHrs: 0 });
   const [deleteDate, setDeleteDate] = useState('');
+  const [isPopupOpen, setIsPopupOpen] = useState(false);  // To control popup visibility
+
 
   useEffect(() => {
     fetchSleepData();
@@ -156,49 +160,37 @@ const chartOptions = {
 
 
 
-  return (
-    <div className="sleep-report">
-      <h1>Sleep Report</h1>
+return (
+  <div className={`sleep-report ${isPopupOpen ? 'blur-background' : ''}`}> {/* Blur background when popup is open */}
+    <h1>Sleep Report</h1>
 
-      <div className="summary">
-  <p>
-    Use the chart to visualize your sleep data for the past week, empowering you to make healthier choices for better rest.Stay committed to your sleep goals and discover the impact of quality sleep on your health and productivity.
-  </p>
-</div>
-
-      <div className="chart-container">
-      <Bar data={chartData} options={chartOptions} />      
-      </div>
-
-      <div className="add-sleep-entry">
-        <h2>Add Sleep Entry</h2>
-        <input
-          type="date"
-          value={newEntry.date}
-          onChange={(e) => setNewEntry({ ...newEntry, date: e.target.value })}
-          placeholder="Date"
-        />
-        <input
-          type="number"
-          value={newEntry.durationInHrs}
-          onChange={(e) => setNewEntry({ ...newEntry, durationInHrs: Number(e.target.value) })}
-          placeholder="Duration (hrs)"
-        />
-        <button onClick={handleAddSleep}>Add Entry</button>
-      </div>
-
-      <div className="delete-sleep-entry">
-        <h2>Delete Sleep Entry</h2>
-        <input
-          type="date"
-          value={deleteDate}
-          onChange={(e) => setDeleteDate(e.target.value)}
-          placeholder="Date"
-        />
-        <button onClick={handleDeleteSleep}>Delete Entry</button>
-      </div>
+    <div className="summary">
+      <p>
+        Use the chart to visualize your sleep data for the past week, empowering you to make healthier choices for better rest.
+      </p>
     </div>
-  );
+
+    <div className="chart-container">
+      <Bar data={chartData} options={chartOptions} />
+    </div>
+
+    <div className="edit-icon" onClick={() => setIsPopupOpen(true)}>
+      <FaEdit size={30} />
+    </div>
+
+    {isPopupOpen && (
+      <SleepEntryPopup
+        onClose={() => setIsPopupOpen(false)} 
+        onAddSleep={handleAddSleep}
+        newEntry={newEntry}
+        setNewEntry={setNewEntry}
+        onDeleteSleep={handleDeleteSleep}
+        deleteDate={deleteDate}
+        setDeleteDate={setDeleteDate}
+      />
+    )}
+  </div>
+);
 };
 
 export default SleepReport;
