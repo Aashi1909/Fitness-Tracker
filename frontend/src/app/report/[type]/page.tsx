@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
 import './ReportPage.css';
 // import { color } from 'chart.js/helpers';
-import { FaEdit } from 'react-icons/fa';  // Import the edit icon
+import { FaEdit } from 'react-icons/fa';  
 import SleepEntryPopup from '@/components/SleepEntry/SleepEntryPopup'; 
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
