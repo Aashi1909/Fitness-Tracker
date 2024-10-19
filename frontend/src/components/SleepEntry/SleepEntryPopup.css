@@ -29,7 +29,13 @@
     border: none;
     font-size: 20px;
     cursor: pointer;
-    color: #ffc20e;
+    color: white;
+    background-color: #ffc20e;
+
+  }
+  .close-button:hover {
+    background-color: gold;
+    color: white;
   }
   
   button {

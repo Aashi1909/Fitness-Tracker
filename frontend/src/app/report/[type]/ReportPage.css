@@ -52,6 +52,20 @@ body{
   }
   
   button:hover {
-    background-color: #f2d375;
+    background-color: gold;
+  }
+  .edit-icon {
+    position: absolute;
+    bottom: 20px; /* Distance from the bottom */
+    right: 20px;  /* Distance from the right */
+    background-color: #ffc20e; /* Set background color */
+    padding: 10px; /* Adjust padding to ensure it's fully circular */
+    border-radius: 50%; /* Make it circular */
+    cursor: pointer; /* Change the cursor to indicate it's clickable */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for better appearance */
+  }
+  
+  .edit-icon:hover {
+    background-color: gold; /* Change the color slightly on hover for feedback */
   }
   

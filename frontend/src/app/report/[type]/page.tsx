@@ -175,7 +175,7 @@ return (
     </div>
 
     <div className="edit-icon" onClick={() => setIsPopupOpen(true)}>
-      <FaEdit size={30} />
+      <FaEdit size={40} />
     </div>
 
     {isPopupOpen && (
